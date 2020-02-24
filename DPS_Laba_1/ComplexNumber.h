@@ -51,7 +51,11 @@ public:
 	friend ComplexNumber operator+(const ComplexNumber& a, const ComplexNumber& b) {
 		return ComplexNumber(a.r_part + b.r_part, a.i_part + b.i_part);
 	}
-
+	
+	static ComplexNumber Minus(ComplexNumber complex_number_array_a, ComplexNumber complex_number_array_b);
+	static ComplexNumber* DivArray( ComplexNumber* complex_number_array, int how_many, int from);
+	static float* DivArray( float* complex_number_array, int how_many, int from);
+	static ComplexNumber* ComArray( ComplexNumber* complex_number_array_a,  ComplexNumber* complex_number_array_b, int how_many);
 	static ComplexNumber Mul(const ComplexNumber& complex_number1, const ComplexNumber& complex_number2);
 	static ComplexNumber Mul(const float complex_number1, const ComplexNumber& complex_number2);
 
