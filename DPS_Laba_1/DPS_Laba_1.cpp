@@ -3,19 +3,76 @@
 
 #include "ComplexNumber.h"
 
+#define _USE_MATH_DEFINES // for C++
+#include <cmath>
+#include "DPS_Laba_1.h"
+
+//#define M_PI ;
+
+constexpr double M_PI = 3.14159265358979323846;
+
+//y=sin(2x)+cos(7x) исходная функция
+void AmplitudeFunk(float* array_amplitude)
+{
+    //array_amplitude = new float[64];
+    for (int i = 0; i < 64; i++) {
+        array_amplitude[i] = sin(2 * i) + cos(7 * i);
+    }
+}
+
+void DPF(float* array_amplitude, ComplexNumber* result, float* phase, float* amplitude) {
+
+    for (int i = 0; i < 64; ++i) {
+        for (int j = 0; j < 64; j++) {
+            result[i].Sum(result[i], ComplexNumber::Mul(array_amplitude[j], ComplexNumber(cos(2 * M_PI * i * j / 64), sin(2 * M_PI * i * j / 64))  ));
+        }
+        amplitude[i] = sqrt(result[i].r_part * result[i].r_part + result[i].i_part * result[i].i_part);
+        phase[i] = atan(result[i].r_part * result[i].r_part + result[i].i_part * result[i].i_part);
+    }
+}
+
+void RDPF(ComplexNumber* array_amplitude, ComplexNumber* result, float* amplitude) {
+    for (int i = 0; i < 64; ++i) {
+        for (int j = 0; j < 64; j++)
+        {
+            result[i].Sum(result[i], ComplexNumber:: Mul(array_amplitude[j], ComplexNumber(cos(2 * M_PI * i * j / 64), (-1) * sin(2 * M_PI * i * j / 64)) ));
+        }
+        amplitude[i] = result[i].r_part / 64;
+    }
+}
+
+
+
+
+
 
 int main()
 {
     setlocale(LC_ALL, "rus");
-    ComplexNumber complex_number(1,3);
-    ComplexNumber complex(1,3);
-    ComplexNumber com;
-    com.Mul(complex, complex_number);
-    cout <<com;
-    cout << complex_number;
-    cout << complex;
-   // complex_number.Printf();
+
+    float* array_amplitude = new float[64];
+    float* phase = new float[64];
+    float* amplitude = new float[64];
+    
+    
+
+    float* phase1 = new float[64];
+    float* amplitude1 = new float[64];
+    AmplitudeFunk(array_amplitude);
+
+    ComplexNumber* complex_numberDPF = new ComplexNumber[64];
+    ComplexNumber* complex_numberDPF2 = new ComplexNumber[64];
+
+    DPF(array_amplitude, complex_numberDPF,phase,amplitude);
+    RDPF(complex_numberDPF, complex_numberDPF2, amplitude1);
+
+
+    for (int i = 0; i < 64; i++) {
+
+        cout << amplitude[i] << " " << phase[i] << " " << array_amplitude[i] << " " << amplitude1[i]<<" "<< phase1[i]<<endl;
+    }
 }
+
 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
 // Отладка программы: F5 или меню "Отладка" > "Запустить отладку"

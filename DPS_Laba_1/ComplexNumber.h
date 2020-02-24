@@ -8,17 +8,17 @@ using namespace std;
 
 class ComplexNumber
 {
-private:
+public:
 	float i_part;
 	float r_part;
 
-public:
+
 
 	ComplexNumber() {
 		i_part = 0; r_part = 0;
 	}
 
-	ComplexNumber(float i_part, float r_part) {
+	ComplexNumber(float r_part, float i_part) {
 		this->i_part = i_part;
 		this->r_part = r_part;
 	}
@@ -46,7 +46,14 @@ public:
 
 	void Printf();
 
-	void Mul(const ComplexNumber& complex_number1, const ComplexNumber& complex_number2);
+	void Sum(ComplexNumber a, ComplexNumber b);
+
+	friend ComplexNumber operator+(const ComplexNumber& a, const ComplexNumber& b) {
+		return ComplexNumber(a.r_part + b.r_part, a.i_part + b.i_part);
+	}
+
+	static ComplexNumber Mul(const ComplexNumber& complex_number1, const ComplexNumber& complex_number2);
+	static ComplexNumber Mul(const float complex_number1, const ComplexNumber& complex_number2);
 
 };
 
